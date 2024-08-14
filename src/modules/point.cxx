@@ -1,10 +1,51 @@
-#include "kdpoint.h"
+module;
+#include <vector>
 #include <limits.h>
 #include <string>
 
-void organisation::kdpoint::reset(long dimensions)
+export module point;
+
+export class point
 {
-    init = false; cleanup();
+    bool init;
+
+    std::vector<long> values;    
+    std::vector<long> min, max;
+
+    long dimensions;
+    
+public:
+    long identity;
+
+public:
+    point(long dimensions) { reset(dimensions); }
+    ~point() { }
+
+    bool initalised() { return init; }
+    void reset(long dimensions);
+
+    void clear();
+    
+public:
+    void set(long *points, unsigned long length = 0L);
+    bool set(long value, unsigned long dimension);
+    void set(long value);
+
+    long get(unsigned long dimension);
+
+    bool dominates(const point &source);
+
+public:
+    void copy(const point &source);
+    bool equals(const point &source);
+    bool inside(const point &min, const point &max);
+
+    bool issame(long value);
+};
+
+void point::reset(long dimensions)
+{
+    init = false;
 
     this->dimensions = dimensions;
 
@@ -24,7 +65,7 @@ void organisation::kdpoint::reset(long dimensions)
     init = true;
 }
 
-void organisation::kdpoint::clear()
+void point::clear()
 {
     for(long i=0L; i < dimensions; ++i)
     {
@@ -34,7 +75,8 @@ void organisation::kdpoint::clear()
     }
 }
 
-void organisation::kdpoint::set(long *points, unsigned long length)
+
+void point::set(long *points, unsigned long length)
 {
     long min = length;
     if(min == 0L) min = dimensions;
@@ -46,7 +88,7 @@ void organisation::kdpoint::set(long *points, unsigned long length)
     }
 }
 
-bool organisation::kdpoint::set(long value, unsigned long dimension)
+bool point::set(long value, unsigned long dimension)
 {
     if(dimension >= dimensions) return false;
     if(dimension < 0L) return false;
@@ -56,7 +98,7 @@ bool organisation::kdpoint::set(long value, unsigned long dimension)
     return true;
 }
 
-void organisation::kdpoint::set(long value)
+void point::set(long value)
 {
     for(long i = 0L; i < dimensions; ++i)
     {
@@ -66,7 +108,7 @@ void organisation::kdpoint::set(long value)
     }
 }
 
-long organisation::kdpoint::get(unsigned long dimension)
+long point::get(unsigned long dimension)
 {
     if(dimension >= dimensions) return -1L;
     if(dimension < 0L) return -1L;
@@ -74,7 +116,7 @@ long organisation::kdpoint::get(unsigned long dimension)
     return values[dimension];
 }
 
-bool organisation::kdpoint::dominates(const kdpoint &source)
+bool point::dominates(const point &source)
 {
     bool any = false;
     for (int i = 0; i < dimensions; ++i)
@@ -86,7 +128,7 @@ bool organisation::kdpoint::dominates(const kdpoint &source)
     return any;
 }
 
-void organisation::kdpoint::copy(const kdpoint &source)
+void point::copy(const point &source)
 {
     if (dimensions <= source.dimensions)
     {
@@ -105,7 +147,7 @@ void organisation::kdpoint::copy(const kdpoint &source)
     }
 }
 
-bool organisation::kdpoint::equals(const kdpoint &source)
+bool point::equals(const point &source)
 {
     if (dimensions < source.dimensions) return false;
     
@@ -120,7 +162,7 @@ bool organisation::kdpoint::equals(const kdpoint &source)
     return true;
 }
 
-bool organisation::kdpoint::inside(const kdpoint &min, const kdpoint &max)
+bool point::inside(const point &min, const point &max)
 {
     if(min.dimensions != dimensions) return false;
     if(max.dimensions != dimensions) return false;
@@ -134,7 +176,7 @@ bool organisation::kdpoint::inside(const kdpoint &min, const kdpoint &max)
     return true;
 }
 
-bool organisation::kdpoint::issame(long value)
+bool point::issame(long value)
 {
     for(long i=0L; i < dimensions; ++i)
     {
@@ -142,14 +184,4 @@ bool organisation::kdpoint::issame(long value)
     }
 
     return true;
-}
-
-void organisation::kdpoint::makeNull()
-{
-    
-}
-
-void organisation::kdpoint::cleanup()
-{
-
 }

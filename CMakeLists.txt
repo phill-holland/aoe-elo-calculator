@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.30)
 
 #set(CMAKE_CXX_COMPILER clang++)
 
@@ -12,16 +12,14 @@ set(LLVM_PARALLEL_LINK_JOBS, 8)
 
 enable_testing()
 
-#find_package(IntelDPCPP REQUIRED)
 find_package(Threads REQUIRED)
 
 include_directories("/usr/include")
 include_directories("src/include")
 
 add_subdirectory(src)
-#add_subdirectory(test)
 
-file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS 
-"${PROJECT_SOURCE_DIR}/src/source/*.cpp" 
-)
+#file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS 
+#"${PROJECT_SOURCE_DIR}/src/source/*.cpp" 
+#)
 
