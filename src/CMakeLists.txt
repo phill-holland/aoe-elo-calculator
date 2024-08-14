@@ -1,11 +1,5 @@
 set(BINARY ${CMAKE_PROJECT_NAME})
 
-#file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.hpp *.cpp)
-#set(SOURCES ${SOURCES})
-
-#file(GLOB_RECURSE MODULES LIST_DIRECTORIES true *.cxx)
-#SET(MODULES ${MODULES})
-
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD 20)
 
@@ -34,25 +28,20 @@ target_sources(
     modules/point.cxx
 )
 
-add_executable(${BINARY} modules/main.cxx)
-#${SOURCES})
+add_library(calculator)
+target_sources(
+    calculator PUBLIC
+    FILE_SET cxx_modules TYPE CXX_MODULES FILES
+    modules/point.cxx
+    modules/calculator.cxx    
+    modules/player.cxx
+    modules/team.cxx
+)
 
+add_executable(${BINARY} modules/main.cxx)
 
 #add_library(${BINARY}_lib STATIC ${SOURCES})
 
-#set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
-
 target_link_libraries(${PROJECT_NAME} "${CMAKE_THREAD_LIBS_INIT}")
 
-target_link_libraries(${PROJECT_NAME} team player point)
-
-#target_compile_options(${PROJECT_NAME} PRIVATE -fmodules-ts -xc++-system-header)
-
-#target_compile_options(${PROJECT_NAME} PRIVATE -fmodules-ts)
-#target_link_options(${PROJECT_NAME} PUBLIC -fmodules-ts)
-
-#if(${BUILD_FOR_CUDA})
-#    target_compile_options(${PROJECT_NAME} PRIVATE -fsycl -fsycl-targets=nvptx64-nvidia-cuda -fsycl-unnamed-lambda)
-#    target_link_options(${PROJECT_NAME} PUBLIC -fsycl -fsycl-targets=nvptx64-nvidia-cuda -fsycl-unnamed-lambda)
-#endif ()
-
+target_link_libraries(${PROJECT_NAME} team player point calculator)

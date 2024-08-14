@@ -14,15 +14,12 @@ It then uses a pareto front algorithm to find the best combinations of teams clo
 
 *It's technically brute force, but the total players per multiplayer game is so low it doesn't matter too much.
 
+**Also testing C++ modules in this code repo for the first time!
+
 # Build Dependencies
 
-Cmake >= 3.26
-Ninja > 1.10
+For module support;
+Cmake >= 3.30
+Ninja >= 1.11
+GCC >= 14
 
-https://www.kitware.com/import-cmake-the-experiment-is-over/
-
-https://www.dedicatedcore.com/blog/install-gcc-compiler-ubuntu/
-
-https://godbolt.org/z/aTr8crhcE
-
-https://www.kitware.com/import-std-in-cmake-3-30/

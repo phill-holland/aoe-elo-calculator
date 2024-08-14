@@ -46,7 +46,7 @@
         {
             "label": "Make Release",
             "type": "shell",
-            "command": "cmake -DCMAKE_BUILD_TYPE=\"Release -O2 -g\" ../",
+            "command": "cmake -GNinja -DCMAKE_BUILD_TYPE=\"Release -O2 -g\" ../",
             "hide": true,
             "group": {
                 "kind": "build",

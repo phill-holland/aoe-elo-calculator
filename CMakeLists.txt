@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
 
-#set(CMAKE_CXX_COMPILER clang++)
-
 project(elo-calculator LANGUAGES CXX)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -18,8 +16,4 @@ include_directories("/usr/include")
 include_directories("src/include")
 
 add_subdirectory(src)
-
-#file(GLOB_RECURSE SOURCE CONFIGURE_DEPENDS 
-#"${PROJECT_SOURCE_DIR}/src/source/*.cpp" 
-#)
 
