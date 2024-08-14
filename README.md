@@ -14,3 +14,12 @@ It then uses a pareto front algorithm to find the best combinations of teams clo
 
 *It's technically brute force, but the total players per multiplayer game is so low it doesn't matter too much.
 
+**Also testing C++ modules in this code repo for the first time!
+
+# Build Dependencies
+
+For module support;
+Cmake >= 3.30
+Ninja >= 1.11
+GCC >= 14
+

@@ -13,7 +13,7 @@
         {
             "label": "Make Debug",
             "type": "shell",
-            "command": "cmake -DCMAKE_CXX_FLAGS=\"-O0 -g\" -DBUILD_FOR_CUDA=true ../",
+            "command": "cmake -GNinja -DCMAKE_CXX_FLAGS=\"-O0 -g\" ../",
             "hide": true,
             "group": {
                 "kind": "build",
@@ -46,7 +46,7 @@
         {
             "label": "Make Release",
             "type": "shell",
-            "command": "cmake -DCMAKE_BUILD_TYPE=\"Release -O2 -g\" -DBUILD_FOR_CUDA=true ../",
+            "command": "cmake -GNinja -DCMAKE_BUILD_TYPE=\"Release -O2 -g\" ../",
             "hide": true,
             "group": {
                 "kind": "build",
