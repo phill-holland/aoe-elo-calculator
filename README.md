@@ -69,6 +69,7 @@ written on a linux based machine!
 
 ```
 mkdir build
+cd build
 cmake -GNinja -DCMAKE_CXX_FLAGS=\"-O0 -g\" ../
 ```
 
@@ -97,7 +98,9 @@ Which creates two balanced teams (the first number represents the number of team
 The output for two teams may be;
 
 ```
-team1 elo=3100(2[bob] 4[barry] 5[linda]) team0 elo=3200(0[dave] 1[susan] 3[mary]) 112122
+team1 elo=3100(2[bob] 4[barry] 5[linda]) 
+team0 elo=3200(0[dave] 1[susan] 3[mary]) 
+112122
 ```
 
 The number 112122 at the end of the output, if the order of players is retained tells the players
