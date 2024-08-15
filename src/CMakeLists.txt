@@ -7,27 +7,6 @@ set(LLVM_ENABLE_THREADS TRUE)
 set(LLVM_PARALLEL_COMPILE_JOBS, 8)
 set(LLVM_PARALLEL_LINK_JOBS, 8)
 
-add_library(team)
-target_sources(
-    team PUBLIC
-    FILE_SET cxx_modules TYPE CXX_MODULES FILES
-    modules/team.cxx
-)
-
-add_library(player)
-target_sources(
-    player PUBLIC
-    FILE_SET cxx_modules TYPE CXX_MODULES FILES
-    modules/player.cxx
-)
-
-add_library(point)
-target_sources(
-    point PUBLIC
-    FILE_SET cxx_modules TYPE CXX_MODULES FILES
-    modules/point.cxx
-)
-
 add_library(calculator)
 target_sources(
     calculator PUBLIC
@@ -36,6 +15,7 @@ target_sources(
     modules/calculator.cxx    
     modules/player.cxx
     modules/team.cxx
+    modules/teams.cxx
 )
 
 add_executable(${BINARY} modules/main.cxx)
@@ -44,4 +24,4 @@ add_executable(${BINARY} modules/main.cxx)
 
 target_link_libraries(${PROJECT_NAME} "${CMAKE_THREAD_LIBS_INIT}")
 
-target_link_libraries(${PROJECT_NAME} team player point calculator)
+target_link_libraries(${PROJECT_NAME} calculator)

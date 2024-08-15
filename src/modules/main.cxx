@@ -1,8 +1,10 @@
 #include <vector>
 #include <string>
+#include <iostream>
 
 import calculator;
 import player;
+import teams;
 
 using namespace std;
 
@@ -13,8 +15,8 @@ int main(int argc, char *argv[])
         player(600, "susan"),
         player(1200, "bob"),
         player(2000, "mary"),
-        player(700, "woof"),
-        player(1200, "baa")
+        player(700, "barry"),
+        player(1200, "linda")
     };
 
     int total_teams = 2;
@@ -32,8 +34,9 @@ int main(int argc, char *argv[])
         players = temp;
     }
     
-    // teams need to be divisable by two
-    calculator::calculate(players, total_teams);
+    std::vector<teams> data = calculator::calculate(players, total_teams);
+    std::string output = data.front().serialise();
+    std::cout << output << std::endl;
 
     return 0;
 }

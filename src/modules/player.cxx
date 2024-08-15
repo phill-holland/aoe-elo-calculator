@@ -7,7 +7,6 @@ export class player
 {
 public:
     int elo;    
-    int team;
     std::string name;
 
 public:
@@ -16,17 +15,22 @@ public:
         clear();
     }
 
-    player(int _elo, std::string _name = "", int _team = 0)
+    player(int _elo, std::string _name = "")
     {
         elo = _elo;
         name = _name;
-        team = _team;
     }
 
     void clear()
     {
         elo = 0;
         name = "";
-        team = 0;        
+    }
+
+    std::string serialise()
+    {
+        std::string result = "{\"name\":\"";
+        result += name + "\",\"elo\":" + std::to_string(elo) + "}";
+        return result;
     }
 };

@@ -3,10 +3,11 @@ module;
 #include <vector>
 #include <unordered_map>
 #include <math.h>
-#include <iostream>
 #include <algorithm>
+#include <tuple>
 
 import team;
+import teams;
 import player;
 import point;
 
@@ -21,14 +22,14 @@ public:
 export class calculator
 {
 public:
-    static void calculate(std::vector<player> players, int total_teams);
+    static std::vector<teams> calculate(std::vector<player> players, int total_teams);
 
 private:
-    static void permutations(std::vector<permutation> &data, std::vector<player> &players, float &max_team_elo, int total_teams);
-    static void front(std::vector<permutation> &data, std::vector<player> &players, int total_teams, float average, float max_team_elo);
+    static std::vector<permutation> permutations(std::vector<player> &players, float &max_team_elo, int total_teams);
+    static std::vector<teams> front(std::vector<permutation> &data, std::vector<player> &players, int total_teams, float average, float max_team_elo);
 };
 
-void calculator::calculate(std::vector<player> players, int total_teams)
+std::vector<teams> calculator::calculate(std::vector<player> players, int total_teams)
 {
     float average = 0.0f;    
     for(auto &it: players)
@@ -40,14 +41,13 @@ void calculator::calculate(std::vector<player> players, int total_teams)
 
     float max_team_elo = 0.0f;
 
-    std::vector<permutation> data;
-
-    permutations(data, players, max_team_elo, total_teams);
-    front(data, players, total_teams, average, max_team_elo); 
+    std::vector<permutation> data = permutations(players, max_team_elo, total_teams);
+    return front(data, players, total_teams, average, max_team_elo); 
 }
 
-void calculator::permutations(std::vector<permutation> &data, std::vector<player> &players, float &max_team_elo, int total_teams)
+std::vector<permutation> calculator::permutations(std::vector<player> &players, float &max_team_elo, int total_teams)
 {
+    std::vector<permutation> data;
     std::vector<int> play;
     play.resize(players.size());
 
@@ -76,12 +76,12 @@ void calculator::permutations(std::vector<permutation> &data, std::vector<player
             {
                 team t1;
                 t1.elo = value;
-                t1.members.push_back(it);
+                t1.members.push_back(std::tuple<int,player>(it,players[it]));
                 map[team_idx] = t1;
             }
             else 
             {
-                map[team_idx].members.push_back(it);
+                map[team_idx].members.push_back(std::tuple<int,player>(it,players[it]));
                 map[team_idx].elo += value;
             }
 
@@ -96,10 +96,14 @@ void calculator::permutations(std::vector<permutation> &data, std::vector<player
         data.push_back(permutate);
 
     } while(std::next_permutation(play.begin(), play.end()));
+
+    return data;
 }
 
-void calculator::front(std::vector<permutation> &data, std::vector<player> &players, int total_teams, float average, float max_team_elo)
+std::vector<teams> calculator::front(std::vector<permutation> &data, std::vector<player> &players, int total_teams, float average, float max_team_elo)
 {
+    std::vector<teams> results;
+
     int count = data.size();
     bool result[count];
     for(int i = 0; i < count; ++i)
@@ -147,35 +151,39 @@ void calculator::front(std::vector<permutation> &data, std::vector<player> &play
     {
         if(result[i])
         {
+            teams teams1;
             for(auto&it:data[i].map)
             {
-                std::cout << "team" << it.first << " elo=" << it.second.elo << "("; 
+                team temp;
+                temp.elo = it.second.elo;
+
                 for(auto &jt:it.second.members) 
                 {
-                    std::cout << jt << "[" << players[jt].name << "] ";
+                    temp.members.push_back(jt);
                 }
-                std::cout << ") ";
+
+                teams1.data.push_back(temp);
             }
 
             // ***
-            for(int player = 0; player < players.size(); ++player)
+            for(int player_idx = 0; player_idx < players.size(); ++player_idx)
             {
                 for(auto&it:data[i].map)
                 {
                     for(auto &jt:it.second.members) 
                     {
-                        if(jt == player)
+                        if(std::get<0>(jt) == player_idx)
                         {
-                            std::cout << (it.first + 1);
+                            teams1.mapping.push_back(it.first + 1);
                         }
                     }
                 }
             }
-            // ***
 
-            std::cout << "\n";
-            ++output_count;
-            if(output_count >= 5) return;
+            results.push_back(teams1);
+
         }
     }
+
+    return results;
 }

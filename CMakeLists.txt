@@ -13,7 +13,6 @@ enable_testing()
 find_package(Threads REQUIRED)
 
 include_directories("/usr/include")
-include_directories("src/include")
 
-add_subdirectory(src)
+add_subdirectory("src")
 
