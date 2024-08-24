@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
         player(1200, "bob"),
         player(2000, "mary"),
         player(700, "barry"),
-        player(1200, "linda")
+        player(1200, "linda"),
+        player(100, "ray"),
+        player(250, "thomas")
     };
 
     int total_teams = 2;
