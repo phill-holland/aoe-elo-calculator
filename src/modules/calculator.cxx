@@ -5,6 +5,7 @@ module;
 #include <math.h>
 #include <algorithm>
 #include <tuple>
+#include <string>
 
 import team;
 import teams;
@@ -49,6 +50,8 @@ std::vector<permutation> calculator::permutations(std::vector<player> &players, 
 {
     std::vector<permutation> data;
     std::vector<int> play;
+    std::unordered_map<std::string,std::string> duplicates;
+
     play.resize(players.size());
 
     int counter = 0;
@@ -64,7 +67,7 @@ std::vector<permutation> calculator::permutations(std::vector<player> &players, 
     {
         std::unordered_map<int,team> map;
         permutation permutate;
-     
+
         int previous_team_idx = 0;
         int counter = 0;
         for(auto &it:play)
@@ -89,11 +92,28 @@ std::vector<permutation> calculator::permutations(std::vector<player> &players, 
         }
 
         permutate.map = map;
+        std::string key;
+
         for(auto &it:map)
-        {
-            if(it.second.elo>max_team_elo) max_team_elo = it.second.elo;
+        {            
+            std::sort(it.second.members.begin(), it.second.members.end(), [](const std::tuple<int,player> &lhs, const std::tuple<int,player> &rhs)
+            {
+                return std::get<0>(lhs) < std::get<0>(rhs);
+            });            
+            
+            for(auto &jt:it.second.members)
+            {
+                key += std::to_string(std::get<0>(jt));
+            }
+
+            if(it.second.elo>max_team_elo) max_team_elo = it.second.elo;        
         }
-        data.push_back(permutate);
+
+        if(duplicates.find(key) == duplicates.end())
+        {
+            data.push_back(permutate);
+            duplicates[key] = key;
+        }
 
     } while(std::next_permutation(play.begin(), play.end()));
 
